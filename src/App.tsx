@@ -17,13 +17,7 @@ export enum EmojiKind {
   details = "details",
 }
 
-export interface AssetKind {
-  [EmojiKind.eyes]: string[];
-  [EmojiKind.mouth]: string[];
-  [EmojiKind.head]: string[];
-  [EmojiKind.details]: string[];
-  [EmojiKind.eyebrows]: string[];
-}
+export type AssetKind = Record<EmojiKind, string[]>;
 
 type ImportFn = () => Promise<{ default: string }>
 
@@ -55,6 +49,8 @@ const loadImage = async () => {
 const App: Component = () => {
   const [assets, setAssets] = createSignal<AssetKind>({ eyes: [], mouth: [], head: [], eyebrows: [], details: [] });
   const [selected, setSelected] = createSignal<Emoji>({ eyes: "", mouth: "", head: "", eyebrows: "", details: "" });
+  
+  const a = Object.keys(EmojiKind)
 
   onMount(() => loadImage().then((assets) => setAssets(assets)));
 
